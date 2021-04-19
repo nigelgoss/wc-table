@@ -9,6 +9,7 @@
 			button + button { margin-left:1px; }
 		</style>
 		
+		<script>const $ = {"wc":{}};</script>
 		<script src="ng-table.js"></script>
 		
 	</head>
@@ -21,7 +22,7 @@
 			
 		<script>
 			
-			const table = wc.ngTable(); document.querySelector("table").replaceWith(table);
+			const table = $.wc.ngTable(); document.querySelector("table").replaceWith(table);
 			
 			table.shortcuts = ["Mic","Mo","n"];
 			
