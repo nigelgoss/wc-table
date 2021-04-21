@@ -113,9 +113,9 @@ return () => {
 		
 		let out = store.data;
 		
-		if (filter.value !== "") {
+		if (inputFilter.value !== "") {
 	
-			const needles = filter.value.toLowerCase().split(" ");
+			const needles = inputFilter.value.toLowerCase().split(" ");
 
 			out = out.filter($v => {
 
