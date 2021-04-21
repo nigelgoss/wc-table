@@ -59,7 +59,7 @@ return () => {
 			inputFilter.type = "text";
 			inputFilter.placeholder = "Filter...";
 			inputFilter.oninput = () => {
-				build();
+				setData();
 			};
 		
 		const dRight = document.createElement("div"); nav.appendChild(dRight);
