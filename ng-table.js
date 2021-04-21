@@ -59,8 +59,7 @@ return () => {
 			inputFilter.type = "text";
 			inputFilter.placeholder = "Filter...";
 			inputFilter.oninput = () => {
-				filter();
-				setData();
+				build();
 			};
 		
 		const dRight = document.createElement("div"); nav.appendChild(dRight);
@@ -79,25 +78,6 @@ return () => {
 	const thead = document.createElement("thead"); table.appendChild(thead);
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-
-	const filter = () => {
-		
-		return store.data.filter($record => {
-			const toFind = inputFilter.value.toLowerCase().split(" ");
-			const toSearch = Object.values($record);
-			while (toFind.length > 0) {
-				let found = false;
-				toSearch.forEach($v => {
-					if (found === true) return;
-					if ($v.toLowerCase().indexOf(toFind[0]) > -1) found = true;
-				});
-				if (found === false) return false;
-				toFind.shift();
-			};
-			return true;
-		});
-
-	};
 
 	const fn = {
 		"sort": ($ele, $sortFn) => {
@@ -130,11 +110,45 @@ return () => {
 	};
 	
 	const setData = () => {
+		
+		let out = store.data;
+		
+		if (filter.value !== "") {
+	
+			const needles = filter.value.toLowerCase().split(" ");
+
+			out = out.filter($v => {
+
+				const haystack = Object.values($v).map($v2 => {
+					try {
+						return ($v2).toString().toLowerCase();
+					} catch (e) {
+						return "";
+					}
+				});
+
+				for (let n = 0; n < needles.length; n++) {
+					for (let h = 0; h < haystack.length; h++) {
+						if (haystack[h].indexOf(needles[n]) === -1) {
+							if (h === haystack.length - 1) return false;
+							continue;
+						}
+						found = true;
+						break;
+					};
+				}; return true;
+
+			});
+
+		}
+	
 		table.querySelectorAll("tbody").forEach($v => { $v.remove(); });
+		
 		if (typeof store.tbody !== "function") return;
-		filter().forEach($v => {
+		out.forEach($v => {
 			table.appendChild(store.tbody($v, fn));
 		});
+		
 	};
 	
 	const setRefresh = () => {
