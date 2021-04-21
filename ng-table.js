@@ -129,12 +129,8 @@ return () => {
 
 				for (let n = 0; n < needles.length; n++) {
 					for (let h = 0; h < haystack.length; h++) {
-						if (haystack[h].indexOf(needles[n]) === -1) {
-							if (h === haystack.length - 1) return false;
-							continue;
-						}
-						found = true;
-						break;
+						if (haystack[h].indexOf(needles[n]) > -1) break;
+						if (h === haystack.length - 1) return false;
 					};
 				}; return true;
 
